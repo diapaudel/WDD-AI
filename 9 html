@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WDD Summer Camp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            animation: fadeInDown 1s ease-in-out;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        main {
+            width: 100%;
+            border: 1px solid lightgray;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .camp-details {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .camp-details:hover {
+            transform: translateY(-10px);
+        }
+        .camp-details h2 {
+            margin-top: 0;
+        }
+        .camp-details p {
+            line-height: 1.6;
+        }
+        footer {
+            background-color: #ff6f00;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        footer p {
+            margin: 0;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WDD Summer Camp</h1>
+        <p>Where Fun Meets Learning</p>
+    </header>
+    <main>
+        <div class="container">
+            <section class="camp-details">
+                <h2>About the Camp</h2>
+                <p>Welcome to the WDD Summer Camp! Our camp is designed to provide an exciting and educational experience for children of all ages. We offer a variety of activities including web development workshops, outdoor adventures, and creative arts and crafts. Join us for a summer full of fun and learning!</p>
+            </section>
+            <section class="camp-details">
+                <h2>Camp Schedule</h2>
+                <p>The WDD Summer Camp runs from June 15th to August 20th. Each week, campers will participate in different themed activities, ranging from coding challenges to nature hikes. Our schedule is packed with engaging and enriching experiences that will keep your child entertained and inspired.</p>
+            </section>
+            <section class="camp-details">
+                <h2>Contact Us</h2>
+                <p>If you have any questions or need more information, please feel free to reach out to us at <a href="mailto:info@wddsummercamp.com">info@wddsummercamp.com</a> or call us at (123) 456-7890. We look forward to welcoming your child to the WDD Summer Camp!</p>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 WDD Summer Camp. All rights reserved.</p>
+    </footer>
+</body>
+</html>
