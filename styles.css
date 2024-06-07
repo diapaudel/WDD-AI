@@ -13,7 +13,7 @@ body {
     padding-top: 30px;
     padding-bottom: 20px;
 }
-div {
+div>{
     width: 100%;
     height: auto;
     margin: 10px 0;
@@ -23,7 +23,7 @@ div {
     text-align: center;
     display: flex;``````      
     align-items: center;
-    justify-content: center;
+    justify-content:center;
 }
 
 #breaking {
