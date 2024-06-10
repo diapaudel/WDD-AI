@@ -44,7 +44,29 @@
     .right-column li {
       margin-bottom: 10px;
     }
-  </style>
+    body {
+  margin: 0;
+  padding: 0;
+}
+
+#div2 {
+  display: flex;
+}
+
+.name-card {
+  margin-right: 10px;
+}
+
+.name-card img {
+  width: 100%;
+}
+
+.name-card .info {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: center;
+}
+</style>
 </head>
 <body>
   <main>
@@ -54,10 +76,9 @@
     </div>
     <div id="div1">
       <div id="left_column_div1">
-        <img src="image1.jfif" alt="Image 1" style="width: 500PX; height: 300px;">
+        <img src="image1.jfif" alt="Image 1" style="width: 58%; height: 58%;">
       </div>
-
-       <div class="right-column">
+      <div class="right-column">
         <ul>
           <li><a href="https://www.asurams.edu">Welcome to ASU</a></li>
           <li><a href="https://www.backupspirit.com/camp">Summer camp 2024 - WDD-AI</a></li>
@@ -65,8 +86,51 @@
       </div>
       <div style="clear: both;"></div>
     </div>
-    <div id="div2">Div 2</div>
-    <div id="div3">Div 3</div>
+
+ 
+    <div id="div2">
+       <div class="name-card">
+        <img src="div1.jpeg" alt="Image 1"  style="height: 60%; width: 30%;">
+        <p>Product:Soil</p>
+        <p>On sale: 40% off</p>
+        <p>Price Range: $80-$300</p>
+      </div>
+
+      <div class="name-card">
+        <img src="div2.jpeg" alt="Image 1" style="height: 30%; width:30%;">
+        <div class="info" style="width: 30%; height: 20%;">
+          <div class="product-info">
+            <p>Product: Grass Cutter</p>
+            <p>On Sale: 70% off</p>
+            <p>Price Range: $800-$1300</p>
+          </div>
+        </div>
+      </div>
+
+    <div class="name-card">
+      <img src="div3.jpeg" alt="Image 3"  style="height: 30%; width: 30%;">
+      <div class="info" style="width: 30%; height: 20%;"></div>
+      <div class="product-info">
+      <p>Product: Wood Crumbs</p>
+      <p>On Sale: 40% off</p>
+      <p>Price Range: $80-$100</p>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div class="name-card">
+      <img src="path/to/image4.jpg" alt="Image 4">
+      <div class="info">
+        <p>Name 4</p>
+        <p>Info Line 1</p>
+        <p>Info Line 2</p>
+      </div>
+    </div>
+  </div>
+
+ <div id="div3">Div 3</div>
     <div id="div4">Div 4</div>
     <div id="div5">Div 5</div>
     <div id="div6">Div 6</div>
