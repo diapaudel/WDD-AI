@@ -21,52 +21,66 @@
     }
     
     .left-column {
-      width: 60%;
+      width: 25%;
       float: left;
     }
     
-    .left-column img {
+    .left-column input {
       width: 100%;
-      height: 75%;
+      margin-bottom: 10px;
     }
     
     .right-column {
-      width: 40%;
-      background-color: silver;
+      width: 75%;
       float: right;
     }
     
     .right-column ul {
       list-style-type: none;
       padding: 0;
+      margin-left: 20px;
     }
     
     .right-column li {
       margin-bottom: 10px;
     }
+    
     body {
-  margin: 0;
-  padding: 0;
-}
+      margin: 0;
+      padding: 0;
+    }
+    
+    #div2 {
+      display: flex;
+    }
+    
+    .name-card {
+      margin-right: 10px;
+    }
+    
+    .name-card img {
+      width: 100%;
+    }
+    
+    .name-card .info {
+      background-color: #f2f2f2;
+      padding: 10px;
+      text-align: center;
+    }
 
-#div2 {
-  display: flex;
-}
 
-.name-card {
-  margin-right: 10px;
-}
-
-.name-card img {
-  width: 100%;
-}
-
-.name-card .info {
-  background-color: #f2f2f2;
-  padding: 10px;
-  text-align: center;
-}
-</style>
+    #div3 {
+      display: flex;
+    }
+    
+    #div3 .left-column {
+      width: 25%;
+    }
+    
+    #div3 .right-column {
+      width: 75%;
+    }
+  </style>
 </head>
 <body>
   <main>
@@ -86,20 +100,19 @@
       </div>
       <div style="clear: both;"></div>
     </div>
-    
-
- 
     <div id="div2">
-       <div class="name-card" onclick= "opemTypesofsoil"></div>
-        <img src="div1.jpeg" alt="Image 1"  style="height: 30%; width: 30%;">
-        <p\div class="product-info"></p>
-        <p>Product:Soil</p>
-        <p>On sale: 40% off</p>
-        <p>Price Range: $80-$300</p>
+      <div class="name-card" onclick="openTypesOfSoil()">
+        <img src="div1.jpeg" alt="Image 1" style="height: 30%; width: 30%;">
+        <div class="info">
+          <div class="product-info">
+            <p>Product: Soil</p>
+            <p>On Sale: 40% off</p>
+            <p>Price Range: $80-$300</p>
+          </div>
+        </div>
       </div>
-
       <div class="name-card">
-        <img src="div2.jpeg" alt="Image 1" style="height: 30%; width:30%;">
+        <img src="div2.jpeg" alt="Image 1" style="height: 30%; width: 30%;">
         <div class="info" style="width: 30%; height: 20%;">
           <div class="product-info">
             <p>Product: Grass Cutter</p>
@@ -108,32 +121,62 @@
           </div>
         </div>
       </div>
-
-    <div class="name-card">
-      <img src="div3.jpeg" alt="Image 1"  style="height: 30%; width: 30%;">
-      <div class="info" style="width: 50%; height: 20%;"></div>
-      <div class="product-info">
-      <p>Product: Wood Crumbs</p>
-      <p>On Sale: 40% off</p>
-      <p>Price Range: $80-$100</p>
+      <div class="name-card">
+        <img src="div3.jpeg" alt="Image 1" style="height: 30%; width: 30%;">
+        <div class="info" style="width: 50%; height: 20%;">
+          <div class="product-info">
+            <p>Product: Wood Crumbs</p>
+            <p>On Sale: 40% off</p>
+            <p>Price Range: $80-$100</p>
+          </div>
+        </div>
+      </div>
+      <div class="name-card">
+        <img src="div4.jpeg" alt="Image 1" style="height: 30%; width: 30%;">
+        <div class="info" style="width: 30%; height: 20%;">
+          <div class="product-info">
+            <p>Product: Thin wire</p>
+            <p>On Sale: 60% off</p>
+            <p>Price Range: $50-$100</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
 
-
-    <div class="name-card">
-      <img src="div4.jpeg" alt="Image 1" style="height: 30%; width: 30%;">
-      <div class="info" style="width: 30%; height: 20%;"></div>
-      <div class="product-info">
-        <p>Product: Thin wire</p>
-        <p>On Sale: 60% off</p>
-        <p>Price Range: $50-$100</p>
+    <div id="div3">
+      <div class="left-column">
+        <h2>Table of Contents</h2>
+        <input type="text" placeholder="Type here">
+        
+        <ul>
+          <li onclick="replaceContent('AAAAA', 'AAAAA AAAAA AAAAA AAAAA')">A</li>
+          <li onclick="replaceContent('BBBBB', 'BBBBB BBBBB BBBBB BBBBB')">B</li>
+          <li onclick="replaceContent('CCCCC', 'CCCCC CCCCC CCCCC CCCCC')">C</li>
+          <li onclick="replaceContent('DDDDD', 'DDDDD DDDDD DDDDD DDDDD')">D</li>
+          <li onclick="replaceContent('EEEEE', 'EEEEE EEEEE EEEEE EEEEE')">E</li>
+          <li onclick="replaceContent('FFFFF', 'FFFFF FFFFF FFFFF FFFFF')">F</li>
+          <li onclick="replaceContent('GGGGG', 'GGGGG GGGGG GGGGG GGGGG')">G</li>
+        </ul>
+      </div>
+      <div class="right-column">
+        <h2 id="headline">AAAAA</h2>
+        <p id="paragraph">AAAAA AAAAA AAAAA AAAAA</p>
       </div>
     </div>
-  </div>
+  </main>
+  <script>
+    function openTypesOfSoil() {
+      window.open('Types of soil.html', '_blank');
+    }
+    
+    function replaceContent(headline, paragraph) {
+      document.getElementById('headline').innerHTML = headline;
+      document.getElementById('paragraph').innerHTML = paragraph;
+    }
+  </script>
 
- <div id="div3">Div 3</div>
+
     <div id="div4">Div 4</div>
     <div id="div5">Div 5</div>
     <div id="div6">Div 6</div>
@@ -151,6 +194,14 @@
     <div id="div18">Div 18</div>
     <div id="div19">Div 19</div>
     <div id="div20">Div 20</div>
-  </main>
+
+    
+</main>
+   <script>
+  function openTypesOfSoil() {
+    window.open('Types of soil.html', '_blank');
+  }
+</script>
+
 </body>
 </html>
