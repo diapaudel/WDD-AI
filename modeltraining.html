@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summer CAM WDD Using
+         AI</title>
+    <!-- Include Bootstrap CSS -->
+     <title>Using Dataset from Google</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .banner {
+            background-color: silver;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        main div {
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        img {
+            width: 400px;
+            height: 300px;
+        }
+        #div1 img {
+            width: 400px;
+            height: 300px;
+        }
+        #div5 {
+            margin-bottom: 20px;
+        }
+
+        #div6, #div7, #div8, #div9 {
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        #div9 {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner bg-light">
+        Summer CAM WDD Using AI
+    </div>
+
+    <main>
+           <!-- div1 with headline and unordered list -->
+           <div id="div1">
+            <h2>Section 1. What is a linear regression?</h2>
+            <ul>
+                <li>It tries to find a linear function y=wx+b.</li>
+                <li>The linear function tries to fit a collection of number pairs, such as house sales, (sqft, sale price).</li>
+                <li>There is no linear function that can accurately fit all number pairs. So, we have to find the 'best' one.</li>
+                <li>By being best, we design a so-called cost function, such as mean square error invented by the great Carl Gauss.</li>
+                <li>This is what machine learning is doing.<br>
+                    <img src="linearRegression1.jpg">
+                </li>
+                
+            </ul>
+            </div>    
+<!-- div2 with headline and paragraphs -->
+
+         <div id="div2">
+            <h2>Section 2. The JavaScript libraries to use</h2>
+            <p>We will use TensorFlow.js to train the model.</p>
+            <p>Click the 'Run' button below to import two JavaScript libraries.</p> 
+         </div>
+
+    <!-- div3 with paragraphs -->
+    <div id="div3">
+        <p>Import <a href="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js">https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js</a> 
+            for defining and training models.</p>
+        <p>Import <a href="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js">https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js</a> for web browser visualization.
+        </p> 
+        <button onclick="loadLibraries()">Run</button>
+    </div>
+
+    </main>
+
+            <!-- div4 to display console output -->
+            <div id="div4"></div>
+        </main>
+
+        <div id="div5">
+            <h2>Section 3. Using the dataset from Google</h2>
+            <p>We will use a dataset from Google, <a href="https://storage.googleapis.com/tfjs-tutorials/carsData.json">https://storage.googleapis.com/tfjs-tutorials/carsData.json</a>.</p>
+            <button onclick="loadDataset()">Load the dataset</button>
+        </div>
+    
+        <div id="div7">
+            <h2>Section 4. Extract the Miles_per_Gallon and Horsepower</h2>
+            <p>We will use only Miles_per_Gallon:value and Horsepower: value for our training.</p>
+            <button onclick="extractData()">Extract training dataset</button>
+        </div>
+    
+        <div id="div8">
+            <h2>Section 5. Visualize the training dataset</h2>
+            <button onclick="visualizeData()">Visualize the training dataset</button>
+        </div>
+    
+        <div id="div9">
+            <h2>Section 6. Define the model</h2>
+            <p>We will define a TensorFlow sequential model with one input x and one output y.</p>
+        </div>
+    
+        <div id="div6"></div>
+    
+        <!-- Include Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Include Plotly.js -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- Include TensorFlow.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
+    
+        <script>
+            var globalDataset; // Global variable to store the dataset
+            var extractData; // Global variable to store the extracted dataset
+    
+            function loadDataset() {
+                fetch('https://storage.googleapis.com/tfjs-tutorials/carsData.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        globalDataset = data; // Save the fetched data to the global variable
+                        var consoleOutput = document.getElementById('div6');
+                        consoleOutput.innerHTML = JSON.stringify(data);
+                    })
+                    .catch(error => {
+                        var consoleOutput = document.getElementById('div6');
+                        consoleOutput.innerHTML = 'Error loading dataset: ' + error;
+                    });
+            }
+    
+            function extractData() {
+                if (globalDataset) {
+                    extractData = globalDataset.map(item => {
+                        return {
+                            "Miles_per_Gallon": item.Miles_per_Gallon,
+                            "Horsepower": item.Horsepower
+                        };
+                    });
+                    var consoleOutput = document.getElementById('div6');
+                    var firstTenData = extractData.slice(0, 10); // Get the first 10 data values
+                    consoleOutput.innerHTML = JSON.stringify(firstTenData);
+                } else {
+                    var consoleOutput = document.getElementById('div6');
+                    consoleOutput.innerHTML = 'Dataset not loaded yet.';
+                }
+            }
+    
+            function visualizeData() {
+                if (extractData) {
+                    var data = [{
+                        x: extractData.map(item => item.Horsepower),
+                        y: extractData.map(item => item.Miles_per_Gallon),
+                        mode: 'markers',
+                        type: 'scatter',
+                        marker: {
+                            size: 8,
+                            color: 'blue'
+                        }
+                    }];
+    
+                    var layout = {
+                        title: 'Horsepower vs Miles_per_Gallon',
+                        xaxis: {
+                            title: 'Horsepower',
+                            range: [0, 240],
+                            dtick: 20
+                        },
+                        yaxis: {
+                            title: 'MPG',
+                            range: [0, 50],
+                            dtick: 10
+                        }
+                    };
+    
+                    Plotly.newPlot('div6', data, layout);
+                } else {
+                    var consoleOutput = document.getElementById('div6');
+                    consoleOutput.innerHTML = 'Dataset not extracted yet.';
+                }
+            }
+    
+            function defineModel() {
+                const model = tf.sequential();
+                model.add(tf.layers.dense({ inputShape: [1], units: 1 }));
+                model.add(tf.layers.dense({ units: 1 }));
+    
+                console.log(model.summary());
+            }
+        </script>
+    </body>
+    </html>
+    
