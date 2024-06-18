@@ -3,10 +3,10 @@
 <head>
     <title>Summer CAM WDD Using
          AI</title>
+         <title>Using TensorFlow.js and TensorFlow.js Vis</title>
     <!-- Include Bootstrap CSS -->
-     <title>Using Dataset from Google</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+     href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .banner {
             background-color: silver;
@@ -41,6 +41,11 @@
         #div9 {
             background-color: black;
             color: white;
+        }
+        #div3, #div4, #div9, #div10 {
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -81,11 +86,8 @@
         <button onclick="loadLibraries()">Run</button>
     </div>
 
-    </main>
-
             <!-- div4 to display console output -->
             <div id="div4"></div>
-        </main>
 
         <div id="div5">
             <h2>Section 3. Using the dataset from Google</h2>
@@ -93,6 +95,9 @@
             <button onclick="loadDataset()">Load the dataset</button>
         </div>
     
+        <div id="div6"></div>
+
+
         <div id="div7">
             <h2>Section 4. Extract the Miles_per_Gallon and Horsepower</h2>
             <p>We will use only Miles_per_Gallon:value and Horsepower: value for our training.</p>
@@ -104,12 +109,17 @@
             <button onclick="visualizeData()">Visualize the training dataset</button>
         </div>
     
-        <div id="div9">
+        <div id="div9"></div>
+
+
+        <div id="div10">
             <h2>Section 6. Define the model</h2>
             <p>We will define a TensorFlow sequential model with one input x and one output y.</p>
+            <button onclick="defineModel()">Define the model</button>
+            <button onclick="showModelSummary()">Show summary of the model</button>
         </div>
-    
-        <div id="div6"></div>
+
+        <div id="div11"></div>
     
         <!-- Include Bootstrap JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -118,6 +128,23 @@
         <!-- Include TensorFlow.js -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0"></script>
     
+        <script>
+            function loadLibraries() {
+                var tfScript = document.createElement('script');
+                tfScript.src = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js';
+                tfScript.onload = function() {
+                    var tfVisScript = document.createElement('script');
+                    tfVisScript.src = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js';
+                    tfVisScript.onload = function() {
+                        var consoleOutput = document.getElementById('div4');
+                        consoleOutput.innerHTML = 'Libraries loaded successfully.';
+                    };
+                    document.head.appendChild(tfVisScript);
+                };
+                document.head.appendChild(tfScript);
+            }
+        </script>
+
         <script>
             var globalDataset; // Global variable to store the dataset
             var extractData; // Global variable to store the extracted dataset
@@ -128,7 +155,7 @@
                     .then(data => {
                         globalDataset = data; // Save the fetched data to the global variable
                         var consoleOutput = document.getElementById('div6');
-                        consoleOutput.innerHTML = JSON.stringify(data);
+                        consoleOutput.innerHTML = JSON.stringify(data.slice(0, 10));
                     })
                     .catch(error => {
                         var consoleOutput = document.getElementById('div6');
@@ -144,9 +171,9 @@
                             "Horsepower": item.Horsepower
                         };
                     });
-                    var consoleOutput = document.getElementById('div6');
+                    var consoleOutput = document.getElementById('div7');
                     var firstTenData = extractData.slice(0, 10); // Get the first 10 data values
-                    consoleOutput.innerHTML = JSON.stringify(firstTenData);
+                    consoleOutput.innerHTML += ("<br>" + JSON.stringify(firstTenData));
                 } else {
                     var consoleOutput = document.getElementById('div6');
                     consoleOutput.innerHTML = 'Dataset not loaded yet.';
@@ -180,20 +207,31 @@
                         }
                     };
     
-                    Plotly.newPlot('div6', data, layout);
+                    Plotly.newPlot('div9', data, layout);
                 } else {
                     var consoleOutput = document.getElementById('div6');
                     consoleOutput.innerHTML = 'Dataset not extracted yet.';
                 }
             }
-    
-            function defineModel() {
-                const model = tf.sequential();
-                model.add(tf.layers.dense({ inputShape: [1], units: 1 }));
-                model.add(tf.layers.dense({ units: 1 }));
-    
-                console.log(model.summary());
+            let model;
+
+
+
+        function showModelSummary() {
+            if (model) {
+                var consoleOutput = document.getElementById('div11');
+                tfvis.show.modelSummary(consoleOutput, model);
+            } else {
+                var consoleOutput = document.getElementById('div4');
+                consoleOutput.innerHTML = 'Model not defined yet.';
             }
+        }
+
+        function defineModel() {
+            model = tf.sequential();
+            model.add(tf.layers.dense({ inputShape: [1], units: 1 }));
+            model.add(tf.layers.dense({ units: 1 }));
+        }
         </script>
     </body>
     </html>
