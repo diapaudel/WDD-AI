@@ -141,23 +141,7 @@
             <button onclick="visualizeInputsAndLabels()">Visualize the inputs and labels</button>
             <div id="plotContainer"></div>
         </div>
-        <div id="div13">
-            <h2>Section 9. Train the model</h2>
-            <button onclick="trainModel()">Train the model using prepared data</button>
-            <div id="trainingPerformance"></div>
-        </div>
-        <div id="div14">
-            <h2>Section 10. Generate the dataset for testing</h2>
-            <button onclick="generateTestData()">Generate test data values</button>
-        </div>
-
-        <div id="div15">
-            <h2>Section 11. Visualize the predictions</h2>
-            <button onclick="visualizePredictions()">Visualize the predictions</button>
-            <div id="plotContainer"></div>
-          </div>
-
-    
+        
 
 
         <!-- Include Bootstrap JS -->
@@ -342,129 +326,12 @@ function prepareDataset() {
                 div12, plotData, {
                     xLabel: 'Inputs',
                     yLabel: 'Labels',
-                 height: 300,
+                    height: 300,
                     fontSize: 12
                 }
-                );
-     }
-     
-async function trainModel() {
-    if (preparedData) {
-        const model = tf.sequential();
-        model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
-
-        model.compile({
-            loss: 'meanSquaredError',
-            optimizer: 'adam',
-            metrics: ['mse']
-        });
-
-        const batchSize = 32;
-        const epochs = 50;
-
-        const history = await model.fit(preparedData.inputs, preparedData.labels, {
-            batchSize,
-            epochs,
-
-            callbacks: tfvis.show.fitCallbacks(
-                    div13, ['loss', 'mse'],
-                    { name: 'Training Performance', tab: 'Training Performance', height: 200 }
-            )
-        });
-    } else {
-        console.log('No prepared data available.');
-    }
-}
-
-function visualizePredictions1() { 
- /* not from AI --- start*/ 
- const predictedPoints = Array.from(testDataInputs).map((val, i) => { 
- return {x: val, y: testDataPredictions[i]} 
- }); 
- const originalPoints = extractedData.map(d => ({ 
- x: d.Horsepower, y: d.Miles_per_Gallon, 
- })); 
- /* not from AI --- start*/ 
- const data = { 
- values: [originalPoints, predictedPoints], 
- series: ['Extracted Data', 'Test Data Predictions'], 
- }; 
- const surface = tfvis.render.scatterplot(div15, data, {xLabel: 'X', yLabel: 'Y', height: 300, 
-series: ['Extracted Data', 'Test Data Predictions'] 
- } 
- ); 
- } 
-    
-</script>
-
-<script>
-    let testDataInputs = [];
-    let testDataPredictions = [];
-
-    function generateTestData() {
-        // Define the number of features
-        const numFeatures = 1;
-
-        // Generate uniform range of numbers between 0 and 1 for inputs
-        const numInputs = 100;
-        const inputs = tf.randomUniform([numInputs, numFeatures]);
-
-        // Use the trained model to predict the results
-        const predictions = model.predict(inputs);
-
-        // Un-normalize the data by doing the inverse of the min-max scaling
-        /*
-        const unnormalizedInputs = inputs.mul(inputMax.sub(inputMin)).add(inputMin);
-        const unnormalizedPredictions = predictions.mul(outputMax.sub(outputMin)).add(outputMin);
-        */
-        const unnormalizedInputs = inputs.mul(preparedData.inputMax.sub(preparedData.inputMin)).add(preparedData.inputMin);
-        const unnormalizedPredictions = predictions.mul(preparedData.labelMax.sub(preparedData.labelMin)).add(preparedData.labelMin);
-
-
-
-        // Save the un-normalized inputs and predictions to global variables
-        testDataInputs = unnormalizedInputs.arraySync();
-        testDataPredictions = unnormalizedPredictions.arraySync();
-    }
-</script>
-
-<script>
-        function visualizePredictions() {
-
-            /* not from AI --- start*/
-            const predictedPoints = Array.from(testDataInputs).map((val, i) => {
-                return {x: val, y: testDataPredictions[i]}
-            });
-
-            const originalPoints = extractedData.map(d => ({
-                x: d.Horsepower, y: d.Miles_per_Gallon,
-            }));
-            /* not from AI --- start*/
-
-            const data = {
-                values: [originalPoints, predictedPoints],
-                //values: [extractedData, testDataInputs],
-                series: ['Extracted Data', 'Test Data Predictions'],
-            };
-            const surface = tfvis.render.scatterplot(
-                div15, data, {xLabel: 'X', yLabel: 'Y', height: 300, series: ['Extracted Data', 'Test Data Predictions']}
             );
         }
-
-
-        function visualizePredictions2() {
-            const data = [
-                {x: extractedData, y: extractedLabels, name: 'Extracted Data', mode: 'markers', type: 'scatter'},
-                {x: testDataInputs, y: testDataPredictions, name: 'Test Data Predictions', mode: 'markers', type: 'scatter'}
-            ];
-            const layout = {
-                xaxis: {title: 'Input Data'},
-                yaxis: {title: 'Predicted Data'}
-            };
-            Plotly.newPlot('div15', data, layout);
-        }
 </script>
-
 </main>
 </body>
 </html>
