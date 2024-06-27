@@ -58,9 +58,25 @@
       </div>
       <div id="div8"></div>
       <div id="div9"></div>
-      <div id="div10"></div>
+      <div id="div10">
+        <h2>Section 7. Train the model using 5000 images</h2>
+        <p>The batch size = 512, and epochs = 10</p>
+        <p>The test size = 1000</p>
+        <p>The callbacks have name='Model Training', tab='Model', styles='{height: 1000px}', metrics={'loss', 'val_loss', 'acc', 'val_acc'}</p>
+        <button onclick="trainModel()">Train the model</button>
+      </div>
       <div id="div11"></div>
-      <div id="div12"></div>
+      <div id="div12">
+        <h2>Evaluate the model</h2>
+        <p>We will obtain 500 images from the dataset mnistData.</p>
+        <p>We use the trained model to calculate the predictions and then compare the predictions with the provided labels.</p>
+        <p>We then draw a confusion matrix to show for each digit, how many images are labeled for that digit and how many images that predicted to that digit. Further, how many differences.</p>
+        <!-- You can add the confusion matrix visualization here -->
+  
+  <!--      <button onclick="showConfusionMatrix()">Show a confusion matrix</button>
+  -->
+        <button onclick="showConfusion(globalModel, mnistData)">Show the confusion matrix</button>
+      </div>
       <div id="div13"></div>
       <div id="div14"></div>
       <div id="div15"></div>
@@ -206,49 +222,88 @@ function defineModel() {
     metrics: metrics
   });
 
+  const div9=document.getElementById('div9');
   tfvis.show.modelSummary(div9, model);
 
   globalModel = model; // Save the model to the global variable
 }
 
 var div10 = document.getElementById('div10');
-div10.innerHTML = '<h2>Section 7. Train the model using 5000 images</h2>' +
-                  '<p>The batch size = 512, and epochs = 10</p>' +
-                  '<p>The test size = 1000</p>' +
-                  '<p>The callbacks have name=\'Model Training\', tab=\'Model\', styles={height: 1000px}, metrics={\'loss\', \'val_loss\', \'acc\', \'val_acc\'}</p>';
-                  var div10 = document.getElementById('div10');
-div10.innerHTML = '<h2>Section 7. Train the model using 5000 images</h2>' +
-                  '<p>The batch size = 512, and epochs = 10</p>' +
-                  '<p>The test size = 1000</p>' +
-                  '<p>The callbacks have name=\'Model Training\', tab=\'Model\', styles={height: 1000px}, metrics={\'loss\', \'val_loss\', \'acc\', \'val_acc\'}</p>';
 
-var trainButton = document.createElement('button');
-trainButton.textContent = 'Train the model';
-trainButton.addEventListener('click', trainModel);
-div10.appendChild(trainButton);
 
-function trainModel() {
-  var batchSize = 512;
-  var epochs = 10;
-  var metrics = ['loss', 'val_loss', 'acc', 'val_acc'];
-  var name = 'Model Training';
-  var tab = 'Model';
-  var styles = { height: '400px' };
 
-  var trainData = mnistData.getTrainData(5000);
-  var testData = mnistData.getTestData(1000);
+async function trainModel() {
+    // Compile the globalModel
+    globalModel.compile({
+      optimizer: 'adam',
+    loss: 'categoricalCrossentropy',
+    metrics: ['accuracy']
+  });
 
-  globalModel.fit(trainData.xs, trainData.labels, {
-    batchSize: batchSize,
-    epochs: epochs,
-    validationData: [testData.xs, testData.labels],
+  // Obtain a batch of 5000 training examples
+  const trainData = mnistData.nextTrainBatch(5000);
+  const trainImages = trainData.xs.reshape([5000, 28, 28, 1]);
+  const trainLabels = trainData.labels;
+
+  // Obtain a batch of 1000 testing examples
+  const testData = mnistData.nextTestBatch(1000);
+  const testImages = testData.xs.reshape([1000, 28, 28, 1]);
+  const testLabels = testData.labels;
+
+  // Train the model
+  const history = await globalModel.fit(trainImages, trainLabels, {
+    batchSize: 512,
+    epochs: 10,
+    validationData: [testImages, testLabels],
+
     callbacks: tfvis.show.fitCallbacks(
-      { name: name, tab: tab, styles: styles },
-      metrics
+      document.getElementById('div11'),
+      //{ name: 'Model Training', tab: 'Model' },
+      ['loss', 'acc'],
+      { height: 400 }
     )
   });
 }
-     </script>
-    
+/*
+var div12 = document.getElementById('div12');
+div12.innerHTML = '<h2>Section 8. Evaluate the model</h2>' +
+                  '<p>We will obtain 500 images from the dataset mnistData</p>' +
+                  '<p>We use the trained model to calculate the predictions and then compare the predictions with the provided labels</p>' +
+                  '<p>We then draw a confusion matrix to show for each digit, how many images are labeled for that digit and how many images that predicted to that digit. Further, how many difference</p>';
+
+var confusionMatrixButton = document.createElement('button');
+confusionMatrixButton.textContent = 'Show a confusion matrix';
+confusionMatrixButton.addEventListener('click', showConfusionMatrix);
+div12.appendChild(confusionMatrixButton);
+*/
+
+const classNames = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+
+function doPrediction(model, data, testDataSize = 500) {
+  const IMAGE_WIDTH = 28;
+  const IMAGE_HEIGHT = 28;
+  const testData = data.nextTestBatch(testDataSize);
+  const testxs = testData.xs.reshape([testDataSize, IMAGE_WIDTH, IMAGE_HEIGHT, 1]);
+  const labels = testData.labels.argMax(-1);
+  const preds = model.predict(testxs).argMax(-1);
+
+  testxs.dispose();
+  return [preds, labels];
+}
+
+
+
+async function showConfusion(model, data) {
+  const [preds, labels] = doPrediction(model, data);
+  const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, preds);
+  //const container = {name: 'Confusion Matrix', tab: 'Evaluation'};
+  const container = document.getElementById('div13');
+  tfvis.render.confusionMatrix(container, {values: confusionMatrix, tickLabels: classNames});
+
+  labels.dispose();
+}
+
+
+</script>
 </body>
 </html>
